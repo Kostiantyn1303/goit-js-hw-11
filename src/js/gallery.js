@@ -1,9 +1,6 @@
 import { PixabeyAPI } from './pixabey-api';
 import createGalleryCards from '../templates/gallery-cards.hbs';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import axios from 'axios';
-import SimpleLightbox from 'simplelightbox';
-import 'simplelightbox/dist/simple-lightbox.min.css';
 
 const formEl = document.querySelector('.search-form');
 const buttonSubmit = document.querySelector('.button-search');
@@ -54,6 +51,9 @@ const handleLoadMoreBtnClick = async () => {
   try {
     const { data } = await pixabeyAPI.fetchPhotos();
     if (data.hits.length < pixabeyAPI.count) {
+      Notify.failure(
+        "We're sorry, but you've reached the end of search results."
+      );
       buttonLoadMore.classList.add('is-hidden');
     }
     galleryInfo.insertAdjacentHTML('beforeend', createGalleryCards(data.hits));
